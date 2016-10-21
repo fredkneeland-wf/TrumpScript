@@ -53,7 +53,7 @@ class Tokenizer:
             while i < len(data):
 
                 '''
-                    Facts and Lies will flip/flop depending on Trump's mood every few minutes. 
+                    Facts and Lies will flip/flop depending on Trump's mood every few minutes.
                     If your code fails, try again in a bit. Trump might have changed his mind.
                 '''
                 random.seed(datetime.now().time().minute)
@@ -203,6 +203,9 @@ class Tokenizer:
         # They Say He Doesn't Like China... He Loves China
         Tokenizer._love_china(tokens)
 
+        # properly classify Rosie O'donnel
+        Tokenizer._classify_rosie_o_donnel(tokens)
+
         return tokens
 
     @staticmethod
@@ -218,6 +221,29 @@ class Tokenizer:
                     token['value'] = token['value'].replace("i don't like china",
                         "i don't like china. i love china")
 
+
+    @staticmethod
+    def _classify_rosie_o_donnel(tokens) -> None:
+        """
+        Make sure people understand how dispicable Rosie O'donnel really is.
+        :param tokens: The tokens to enforce these rules on
+        :return: None. Also mutates tokens in-place
+        """
+        for token in tokens:
+            if token['type'] ==  T_Quote:
+                if "rosie o'donnel" in token['value']:
+                    nickname = ""
+                    value = random.randint(0, 4)
+                    if (value == 0):
+                        nickname = "Fat pig"
+                    elif (value == 1):
+                        nickname = "dog"
+                    elif (value == 2):
+                        nickname = "slob"
+                    else:
+                        nickname = "disgusting animal"
+                    token['value'] = token['value'].replace("rosie o'donnel",
+                        nickname)
 
     @staticmethod
     def _fudge_the_numbers(tokens) -> None:
