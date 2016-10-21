@@ -53,7 +53,7 @@ class Tokenizer:
             while i < len(data):
 
                 '''
-                    Facts and Lies will flip/flop depending on Trump's mood every few minutes. 
+                    Facts and Lies will flip/flop depending on Trump's mood every few minutes.
                     If your code fails, try again in a bit. Trump might have changed his mind.
                 '''
                 random.seed(datetime.now().time().minute)
@@ -238,6 +238,32 @@ class Tokenizer:
                     Tokenizer._error(token['line'], 'too_small')
                 if value == forbes_worth:
                     token['value'] = real_worth
+
+                # Ban Arabic Numerals! Only american numbers allowed
+                num = str(token['value'])
+                newNum = ""
+                for letter in num:
+                    if letter == "0":
+                        newNum += "zero"
+                    elif letter == "1":
+                        newNum += "one"
+                    elif letter == "2":
+                        newNum += "two"
+                    elif letter == "3":
+                        newNum += "three"
+                    elif letter == "4":
+                        newNum += "four"
+                    elif letter == "5":
+                        newNum += "five"
+                    elif letter == "6":
+                        newNum += "six"
+                    elif letter == "7":
+                        newNum += "seven"
+                    elif letter == "8":
+                        newNum += "eight"
+                    elif letter == "9":
+                        newNum += "nine"
+                token['value'] = newNum
 
     @staticmethod
     def _is_word_allowed(word) -> bool:
