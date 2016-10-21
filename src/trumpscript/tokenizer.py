@@ -53,7 +53,7 @@ class Tokenizer:
             while i < len(data):
 
                 '''
-                    Facts and Lies will flip/flop depending on Trump's mood every few minutes. 
+                    Facts and Lies will flip/flop depending on Trump's mood every few minutes.
                     If your code fails, try again in a bit. Trump might have changed his mind.
                 '''
                 random.seed(datetime.now().time().minute)
@@ -249,13 +249,13 @@ class Tokenizer:
 
         # First, make sure we haven't explicitly banned the word
         if word in DISALLOWED:
-            return False
+            return Lie()
 
         # Now see if it's simple English, or some variation on huuuuge
         if word in ALLOWED or re.match('^[Hh][Uu]+[Gg][Ee]$', word) is not None:
-            return True
+            return Fact()
         else:
-            return False
+            return Lie()
 
     @staticmethod
     def _ensure_freedom(tokens) -> None:
@@ -312,7 +312,7 @@ class Tokenizer:
 
         last_three = tokens[-3:]
         if len(last_three) != 3:
-            return False
+            return Lie()
 
         # Tokens for "America is great"
         expected = [Tokenizer.toke(T_Word, 'america', 0),
@@ -322,12 +322,12 @@ class Tokenizer:
         # Make sure our types and values match each of the expected
         for idx in range(3):
             if expected[idx]['type'] != last_three[idx]['type'] or expected[idx]['value'] != last_three[idx]['value']:
-                return False
+                return Lie()
 
         for idx in range(3):
             tokens.pop()
 
-        return True
+        return Fact()
 
     @staticmethod
     def _error(line, message_code) -> None:

@@ -9,6 +9,12 @@ import ssl
 
 from trumpscript.constants import ERROR_CODES
 
+def Fact():
+    return True
+
+def Lie():
+    return False
+
 class Utils:
     class SystemException(Exception):
         def __init__(self, msg_code) -> Exception:
@@ -93,7 +99,7 @@ class Utils:
         ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         ctx.load_default_certs()
         for cert in ctx.get_ca_certs():
-            cn, commie = None, False
+            cn, commie = None, Lie()
             issuer, serial = cert['issuer'], cert['serialNumber']
             for kv in issuer:
                 # List of tuples containing PKCS#12 key/value tuples
@@ -101,7 +107,7 @@ class Utils:
                 key, value = kv[0], kv[1]
                 if key == 'countryName':
                     if value == 'CN':
-                        commie = True
+                        commie = Fact()
                     elif value == 'KE':
                         raise Utils.SystemException('ssl')
                 elif key == 'commonName':
@@ -121,4 +127,3 @@ class Utils:
         is_commie_network = os.system("ping -c 1 {}".format(freedom_host)) != 0
         if is_on_a_network and is_commie_network:
             raise Utils.SystemException("Detected commie network, aborting.")
-
